@@ -1,0 +1,25 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}Каталог - {% endblock %}
+
+{% block content %}
+
+<article class="grid-container">
+<div class="grid-x grid-margin-x small-up-1 medium-up-2 large-up-3">
+    {% for catalog in catalogs %}
+        {% if catalog.parent != None %}
+            <div class="cell"><a href="">
+            <div class="callout">
+              <p  class="hollow small button">{{ catalog.parent }}</p>
+              <p><img src="https://placehold.it/400x370&amp;text={{ catalog.title }}" alt="{{ catalog.title }}"></p>
+              <p class="lead">{{ catalog.title }}</p>
+              <p class="subheader">кол-во товаров: </p>
+            </div></a>
+          </div>
+        {% endif %}
+    {% endfor %}
+</div>
+</article>
+{% endblock %}
+
+

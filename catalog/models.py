@@ -59,13 +59,14 @@ class Product(TimeStampedModel):
     description = models.TextField('Описание', blank=True)
     slug = models.SlugField(max_length=200, unique=True)
     sku = models.CharField('Артикул', max_length=200, blank=True)
-    price = models.DecimalField('Цена', max_digits=6, decimal_places=2)
-    price_old = models.DecimalField('Старая цена', max_digits=6, decimal_places=2, blank=True, null=True)
+    barcode = models.CharField('Штрихкод', max_length=40, default='' )
+    price = models.DecimalField('Цена', max_digits=10, decimal_places=2)
+    price_old = models.DecimalField('Старая цена', max_digits=10, decimal_places=2, blank=True, null=True)
     metrika = models.CharField('Ед.измерения', max_length=200, blank=True, default='Штука')
     quentity = models.IntegerField('Количество', blank=True, null=True)
     categoty = models.ForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True, )
-    attribute = models.ForeignKey(AttributeValue, on_delete=models.CASCADE, blank=True)
-    image = models.ForeignKey(ProductImage, on_delete=models.SET_NULL, blank=True, null=True, )
+    attribute = models.ForeignKey(AttributeValue, related_name='attribute_product', on_delete=models.CASCADE, blank=True, null=True, default='')
+    image = models.ForeignKey(ProductImage, on_delete=models.SET_NULL, blank=True, null=True)
     rating = models.FloatField('Рейтинг товара', blank=True, null=True)
 
     class Meta():
