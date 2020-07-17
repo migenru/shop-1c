@@ -99,3 +99,17 @@ def index(request):
 def catalog_list(request):
     catalogs = Category.objects.all()
     return render(request, 'catalog/catalog.html', {'catalogs': catalogs})
+
+
+def products_all(request):
+    products = Product.objects.all()
+    return render(request, 'catalog/product_list.html', {'products':products})
+
+def category_select(request, slug):
+    cat = Category.objects.get(slug=slug)
+    products = Product.objects.all().filter(categoty=cat)
+    return render(request, 'catalog/product_list.html', {'products':products, 'cat':cat})
+
+def product_card(request, slug):
+    product = Product.objects.get(slug=slug)
+    return render(request, 'catalog/product_detail.html', {'product':product})

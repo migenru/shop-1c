@@ -3,17 +3,20 @@
 {% block title %}Каталог - {% endblock %}
 
 {% block content %}
-
+<div class="text-center"><hr>
+      <h2>Каталог товаров</h2>
+      <hr>
+    </div>
 <article class="grid-container">
 <div class="grid-x grid-margin-x small-up-1 medium-up-2 large-up-3">
     {% for catalog in catalogs %}
         {% if catalog.parent != None %}
-            <div class="cell"><a href="">
+            <div class="cell"><a href="{{ catalog.slug }}">
             <div class="callout">
               <p  class="hollow small button">{{ catalog.parent }}</p>
-              <p><img src="https://placehold.it/400x370&amp;text={{ catalog.title }}" alt="{{ catalog.title }}"></p>
-              <p class="lead">{{ catalog.title }}</p>
-              <p class="subheader">кол-во товаров: </p>
+              <p><img src="https://placehold.it/400x200&amp;text={{ catalog.title }}" alt="{{ catalog.title }}"></p>
+              <p class="lead text-center">{{ catalog.title }}</p>
+              <p class="subheader">кол-во товаров: ?</p>
             </div></a>
           </div>
         {% endif %}

@@ -52,7 +52,7 @@
           <li>
             <a href="{% url 'catalog' %}">Каталог</a>
             <ul class="menu">
-              <li><a href="#">Все товары</a></li>
+              <li><a href="{% url 'products_all' %}">Все товары</a></li>
             </ul>
           </li>
           <li><a href="#">Блог</a></li>
@@ -87,7 +87,7 @@
           </div>
           <div class="large-3 large-offset-2 cell">
             <ul class="menu vertical">
-              <li><a href="#">Каталог</a></li>
+              <li><a href="{% url 'catalog' %}">Каталог</a></li>
               <li><a href="#">Блог</a></li>
               <li><a href="#">О компании</a></li>
               <li><a href="#">Магазин</a></li>

@@ -40,9 +40,9 @@
       <div class="grid-x grid-margin-x small-up-2 medium-up-2 large-up-4">
         {% for catalog in catalogs %}
           {% if catalog.parent != None %}
-            <div class="cell">
+            <div class="cell"><a href="catalog/{{ catalog.slug }}">
               <img class="thumbnail" src="https://placehold.it/500x250&amp;text={{ catalog.title }}">
-              <h5 class="text-center">{{ catalog.title }}</h5>
+              <h5 class="text-center">{{ catalog.title }}</h5></a>
             </div>
           {% endif %}
         {% endfor %}
