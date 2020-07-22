@@ -10,7 +10,7 @@ class Question(NodeModel):
     def __str__(self):
         return self.title
 
-    class Meta():
+    class Meta:
         verbose_name = 'Вопрос'
         verbose_name_plural = 'Вопросы'
 
@@ -21,6 +21,6 @@ class Answer(NodeModel):
     def __str__(self):
         return self.title
 
-    class Meta():
+    class Meta:
         verbose_name = 'Ответ'
         verbose_name_plural = 'Ответы'

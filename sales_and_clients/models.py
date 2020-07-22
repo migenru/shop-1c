@@ -4,8 +4,8 @@ from django.db import models
 # Create your models here.
 
 class ShippingAddress(models.Model):
-    zipcode = models.IntegerField('Индекс', blank=True, null=True)
-    city = models.CharField('Город', max_length=200)
+    zipcode = models.IntegerField(verbose_name='Индекс', blank=True, null=True)
+    city = models.CharField(verbose_name='Город', max_length=200)
     address = models.CharField('Адрес', max_length=200, help_text='улица, дом (аппартаменты)')
 
 
@@ -60,7 +60,7 @@ class Order(models.Model):
     client = models.OneToOneField(Client, on_delete=models.DO_NOTHING)
     cart = models.OneToOneField(Cart, on_delete=models.DO_NOTHING)
     total_cost = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Итого', blank=True)
-    order_notes = models.TextField('Примечание к заказу', )
+    order_notes = models.TextField(verbose_name='Примечание к заказу', )
     delivery = models.CharField(verbose_name='Способ забора товара', choices=DELIVERY, max_length=7, default='SERVICE')
     shipping = models.OneToOneField(ShippingAddress, on_delete=models.CASCADE, verbose_name='Адрес доставки')
     method_paid = models.CharField(verbose_name='Метод оплаты', choices=METHOD_PAID, max_length=7, default='ONLINE')

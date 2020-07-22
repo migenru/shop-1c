@@ -11,7 +11,7 @@ class ExtUser(AbstractUser):
         ('S', 'Сотрудник'),
         ('C', 'Клиент'),
     ]
-    second_name = models.CharField('Отчество', max_length=200, blank=True)
-    user_type = models.CharField('Тип пользователя', choices=USER_TYPE, max_length=1, default='C')
-    phone = models.CharField('Телефон', max_length=15, unique=True, blank=True)
-    avatar = models.ImageField('Фото профиля', upload_to='user', blank=True)
+    second_name = models.CharField(verbose_name='Отчество', max_length=200, blank=True)
+    user_type = models.CharField(verbose_name='Тип пользователя', choices=USER_TYPE, max_length=1, default='C')
+    phone = models.CharField(verbose_name='Телефон', max_length=15, unique=True, blank=True)
+    avatar = models.ImageField(verbose_name='Фото профиля', upload_to='user', blank=True)

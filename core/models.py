@@ -15,9 +15,9 @@ class TimeStampedModel(models.Model):
 
 
 class Term(models.Model):
-    name = models.CharField('Название', max_length=200)
+    name = models.CharField(verbose_name='Название', max_length=200)
     slug = models.SlugField(max_length=200)
-    description = models.TextField('Описание', blank=True)
+    description = models.TextField(verbose_name='Описание', blank=True)
 
     class Meta:
         abstract = True
@@ -29,10 +29,10 @@ class NodeModel(TimeStampedModel):
         ('P', 'Published'),
         ('T', 'Trash'),
     ]
-    title = models.CharField('Название', max_length=200)
-    content = models.TextField('Содержимое', blank=True)
+    title = models.CharField(verbose_name='Название', max_length=200)
+    content = models.TextField(verbose_name='Содержимое', blank=True)
     slug = models.SlugField(max_length=200, unique=True)
-    author = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name='Автор', on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='Автор', on_delete=models.CASCADE)
     status = models.CharField(verbose_name='Статус', choices=STATUS, max_length=1, default='D')
 
     class Meta:
