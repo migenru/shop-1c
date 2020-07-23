@@ -4,8 +4,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
-
-
 class ExtUser(AbstractUser):
     USER_TYPE = [
         ('S', 'Сотрудник'),
