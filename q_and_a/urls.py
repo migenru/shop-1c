@@ -3,6 +3,7 @@ from django.conf import settings
 
 from q_and_a import views
 
+app_name = 'q_and_a'
 urlpatterns = [
-    path('', views.index, name='q-and-a'),
+    path('', views.index, name='index'),
 ]

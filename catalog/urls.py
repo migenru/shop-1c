@@ -3,6 +3,7 @@ from django.conf import settings
 
 from catalog import views
 
+app_name = 'catalog'
 urlpatterns = [
     path('', views.index, name='index'),
     path('catalog/', views.catalog_list, name='catalog'),

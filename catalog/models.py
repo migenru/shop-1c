@@ -28,7 +28,7 @@ class AttributeValue(models.Model):
 
 
 class ProductImage(models.Model):
-    image = models.ImageField('Фото товара', upload_to='products/%Y/%m/$d', blank=True)
+    image = models.ImageField('Фото товара', upload_to='media/products/%Y/%m/$d', blank=True)
 
     class Meta:
         verbose_name = 'Фото товара'

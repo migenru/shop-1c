@@ -38,6 +38,7 @@ CORE_APPS = [
 ]
 
 USERS_APPS = [
+    'analytics',
     'article',
     'catalog',
     'core',
@@ -56,6 +57,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+
+    'analytics.middleware.count_page',
 ]
 
 ROOT_URLCONF = 'shop.urls'
@@ -131,3 +135,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
+FIXTURE_DIRS = (
+   os.path.join(BASE_DIR, 'fixture.json'),
+)

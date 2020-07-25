@@ -4,6 +4,7 @@ import lxml.etree as ET
 import requests
 import re
 from slugify import slugify
+from .models import Category, Product
 
 URL_CBR = 'http://cbr.ru/'
 r_currency = requests.get(URL_CBR)

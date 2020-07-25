@@ -48,18 +48,18 @@
     <div class="top-bar" id="mainNavigation">
       <div class="top-bar-left">
         <ul class="dropdown menu vertical medium-horizontal" data-dropdown-menu>
-          <li><a href="{% url 'index' %}" class="hollow button">"Люстры & Лампы"</a></li>
+          <li><a href="{% url 'catalog:index' %}" class="hollow button">"Люстры & Лампы"</a></li>
           <li>
-            <a href="{% url 'catalog' %}">Каталог</a>
+            <a href="{% url 'catalog:index' %}">Каталог</a>
             <ul class="menu">
-              <li><a href="{% url 'products_all' %}">Все товары</a></li>
+              <li><a href="{% url 'catalog:index' %}">Все товары</a></li>
             </ul>
           </li>
           <li><a href="#">Блог</a></li>
           <li><a href="#">Статьи</a></li>
-          <li><a href="#">Покупателям</a></li>
-          <li><a href="#">Вопросы и ответы</a></li>
-          <li><a href="#">Контакты</a></li>
+          <li><a href="{% url 'article:page' slug='for-customers' %}">Покупателям</a></li>
+          <li><a href="{% url 'q_and_a:index' %}">Вопросы и ответы</a></li>
+          <li><a href="{% url 'article:page' slug='contacts' %}">Контакты</a></li>
         </ul>
       </div>
       <div class="top-bar-right">
@@ -87,18 +87,18 @@
           </div>
           <div class="large-3 large-offset-2 cell">
             <ul class="menu vertical">
-              <li><a href="{% url 'catalog' %}">Каталог</a></li>
+              <li><a href="{% url 'catalog:catalog' %}">Каталог</a></li>
               <li><a href="#">Блог</a></li>
-              <li><a href="#">О компании</a></li>
-              <li><a href="#">Магазин</a></li>
+              <li><a href="{% url 'article:page' slug='company' %}">О компании</a></li>
+              <li><a href="{% url 'article:page' slug='store' %}#">Магазин</a></li>
             </ul>
           </div>
           <div class="large-3 cell">
             <ul class="menu vertical">
               <li><a href="#">Статьи</a></li>
-              <li><a href="#">Покупателям</a></li>
-              <li><a href="#">Вопросы и ответы</a></li>
-              <li><a href="#">Контакты</a></li>
+              <li><a href="{% url 'article:page' slug='for-customers' %}">Покупателям</a></li>
+              <li><a href="{% url 'q_and_a:index'%}">Вопросы и ответы</a></li>
+              <li><a href="{% url 'article:page' slug='contacts' %}">Контакты</a></li>
             </ul>
           </div>
           </article>

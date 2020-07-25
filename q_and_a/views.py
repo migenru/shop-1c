@@ -7,4 +7,5 @@ from .models import Question, Answer
 def index(request):
     """Отображение вопросов и ответов"""
     questions = Question.objects.all()
-    return render(request, 'q_and_a/q_and_a_index.html', {'questions': questions,})
+    answers = Answer.objects.all()
+    return render(request, 'q_and_a/base_index.html', {'questions': questions, 'answers': answers,})
