@@ -46,7 +46,6 @@ def catalog_list(request):
 
 def products_all(request):
     """Отображение всех товаров в магазине на одной странице"""
-    products = Product.objects.all()
     return render(request, 'catalog/catalog_product_list.html', {'products': products})
 
 
@@ -73,7 +72,7 @@ def get_product(request):
         if form.is_valid():
             get_title = form.cleaned_data['query']
             products = Product.objects.filter(title__contains=get_title)
-            return render(request, 'catalog/catalog_current_list.html', {'products': products})
+            return render(request, 'catalog/catalog_product_list.html', {'products': products})
 
     # if a GET (or any other method) we'll create a blank form
     else:
