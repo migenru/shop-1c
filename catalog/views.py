@@ -71,11 +71,12 @@ def get_product(request):
         form = SearchForm(request.GET)
         # check whether it's valid:
         if form.is_valid():
-
-            return render(request, 'catalog/serch_result.html', {'product': product})
+            get_title = form.cleaned_data['query']
+            products = Product.objects.filter(title__contains=get_title)
+            return render(request, 'catalog/catalog_current_list.html', {'products': products})
 
     # if a GET (or any other method) we'll create a blank form
     else:
         form = SearchForm()
 
-    return render(request, 'search.html', {'form': form})
+    return render(request, 'catalog/search.html', {'form': form})

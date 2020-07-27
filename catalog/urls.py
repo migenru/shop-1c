@@ -10,5 +10,5 @@ urlpatterns = [
     path('catalog/all/', views.products_all, name='products_all'),
     path('catalog/<slug:slug>/', views.category_select, ),
     path('catalog/product/<slug:slug>/', views.product_card, ),
-    path('catalog/search/', views.get_product, name="search" ),
+    path('search/', views.get_product, name="search" ),
 ]
