@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import Category, Product
 from .other_func import currency_usd, currency_eur, weather_temp
 from analytics.models import BlackIP
+from .forms import SearchForm
 
 
 def block_detail(func):
@@ -61,3 +62,20 @@ def product_card(request, slug):
     """Отображение карточки выбранного товара"""
     product = Product.objects.get(slug=slug)
     return render(request, 'catalog/catalog_product_detail.html', {'product': product})
+
+
+def get_product(request):
+    # if this is a POST request we need to process the form data
+    if request.method == 'GET':
+        # create a form instance and populate it with data from the request:
+        form = SearchForm(request.GET)
+        # check whether it's valid:
+        if form.is_valid():
+
+            return render(request, 'catalog/serch_result.html', {'product': product})
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = SearchForm()
+
+    return render(request, 'search.html', {'form': form})
