@@ -62,16 +62,19 @@ for good in tree.findall('ns:Каталог/ns:Товары/ns:Товар', nms)
         'Штрихкод': bar_code,
         'Единица измерения': '',
         'price': '',
+        'quentity': '',
     }
 
 price = tree_price.findall('ns:ПакетПредложений/ns:Предложения/ns:Предложение', nms)
 for pce in price:
     cost = pce.find('ns:Цены/ns:Цена/ns:ЦенаЗаЕдиницу', nms).text
     currency = pce.find('ns:Цены/ns:Цена/ns:Валюта', nms).text
+    quentity = pce.find('ns:Количество', nms).text
     pce_id = pce.find('ns:Ид', nms).text
     metrika = pce.find('ns:БазоваяЕдиница', nms).get('НаименованиеПолное')
     goods[pce_id]['Единица измерения'] = metrika
     goods[pce_id]['price'] = int(cost)
+    goods[pce_id]['quentity'] = int(quentity)
 
 
 def category_list():
@@ -91,7 +94,7 @@ def products_list():
         product_slug = f"{slugify(goods[key]['Название товара'])}-{str(i)}"
         Product.objects.create(title=goods[key]['Название товара'], id=key,
                                sku=goods[key]['Артикул'], barcode=goods[key]['Штрихкод'],
-                               price=goods[key]['price'], categoty=cat, slug=product_slug)
+                               price=goods[key]['price'], categoty=cat, slug=product_slug, quentity=goods[key]['quentity'])
         i += 1
 
 

@@ -49,13 +49,8 @@
       <div class="top-bar-left">
         <ul class="dropdown menu vertical medium-horizontal" data-dropdown-menu>
           <li><a href="{% url 'catalog:index' %}" class="hollow button">"Люстры & Лампы"</a></li>
-          <li>
-            <a href="{% url 'catalog:index' %}">Каталог</a>
-            <ul class="menu">
-              <li><a href="{% url 'catalog:products_all' %}">Все товары</a></li>
-            </ul>
-          </li>
-          <li><a href="#">Блог</a></li>
+          <li><a href="{% url 'catalog:catalog' %}">Каталог</a></li>
+          <li><a href="{% url 'article:blog' %}">Блог</a></li>
           <li><a href="#">Статьи</a></li>
           <li><a href="{% url 'article:page' slug='for-customers' %}">Покупателям</a></li>
           <li><a href="{% url 'q_and_a:index' %}">Вопросы и ответы</a></li>

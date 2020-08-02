@@ -3,6 +3,7 @@ from .models import Category, Product
 from .other_func import currency_usd, currency_eur, weather_temp
 from analytics.models import BlackIP
 from .forms import SearchForm
+from django.shortcuts import get_object_or_404
 
 
 def block_detail(func):
@@ -46,6 +47,7 @@ def catalog_list(request):
 
 def products_all(request):
     """Отображение всех товаров в магазине на одной странице"""
+    products = Product.objects.all()
     return render(request, 'catalog/catalog_product_list.html', {'products': products})
 
 
@@ -59,11 +61,18 @@ def category_select(request, slug):
 @block_detail
 def product_card(request, slug):
     """Отображение карточки выбранного товара"""
-    product = Product.objects.get(slug=slug)
-    return render(request, 'catalog/catalog_product_detail.html', {'product': product})
+    product = get_object_or_404(Product, slug = slug)
+
+    return render(request, 'catalog/catalog_product_detail.html',
+                  {'product': product})
 
 
 def get_product(request):
+    '''
+    Функция отображения поиска
+    :param request:
+    :return:
+    '''
     # if this is a POST request we need to process the form data
     if request.method == 'GET':
         # create a form instance and populate it with data from the request:
@@ -71,7 +80,7 @@ def get_product(request):
         # check whether it's valid:
         if form.is_valid():
             get_title = form.cleaned_data['query']
-            products = Product.objects.filter(title__contains=get_title)
+            products = Product.objects.filter(title__icontains=get_title).exclude(quentity=0)
             return render(request, 'catalog/catalog_product_list.html', {'products': products})
 
     # if a GET (or any other method) we'll create a blank form
@@ -79,3 +88,5 @@ def get_product(request):
         form = SearchForm()
 
     return render(request, 'catalog/search.html', {'form': form})
+
+

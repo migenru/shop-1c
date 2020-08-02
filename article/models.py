@@ -44,13 +44,30 @@ class TypeArticle(models.Model):
 
 
 class Article(NodeModel):
+    image = models.ImageField('Cover post', upload_to='blog/%Y/%m/$d', blank=True)
     tag = models.ManyToManyField(TagArticle, verbose_name='Тег', blank=True)
     term = models.ManyToManyField(TermArticle, verbose_name='Раздел записи', blank=True)
-    type = models.ForeignKey(TypeArticle, on_delete=models.CASCADE)
+    type = models.ForeignKey(TypeArticle, on_delete=models.CASCADE, related_name='articles')
 
     def __str__(self):
         return self.title
 
-    class Meta():
+    class Meta:
         verbose_name = 'Запись'
         verbose_name_plural = 'Записи'
+
+
+class Comment(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='comments')
+    name = models.CharField(max_length=100, verbose_name='Имя')
+    email = models.EmailField()
+    content = models.TextField(verbose_name='Текст комментария')
+    is_active = models.BooleanField(default=True)
+    created = models.DateTimeField(auto_now_add=True)
+    update = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('created',)
+
+    def __str__(self):
+        return f'Комментарий от {self.name} к статье {self.article}'
