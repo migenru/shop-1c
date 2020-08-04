@@ -18,6 +18,24 @@
             <a href="../../{{ product.categoty.slug }}"><p class="hollow small button">{{ product.categoty }}</p></a>
             <h3>{{ product.title }}</h3>
             <p>{{ product.description }}</p>
+            <div class="grid-x grid-padding-x">
+                {% if user.is_authenticated %}
+                <div class="cell shrink">
+                    <form action="." method="post">
+                        {% csrf_token %}
+                        {{ form.as_ul }}
+                        <button type="submit" class="hollow button alert"><i class="fi-heart"> </i></button>
+                    </form>
+                {% endif %}
+                </div>
+                <div class="cell shrink">
+                    <button class="hollow button" title="сравнить товары"><i class="fi-graph-horizontal"> </i></button>
+                </div>
+                <div class="cell shrink">
+                    <button class="hollow button warning" title="рейтинг"><i class="fi-star"> 4.5</i></button>
+                </div>
+                <div class="cell auto"></div>
+            </div>
             <ul>
                 <li><strong>Артикул: {{ product.sku }}</strong></li>
                 <li><strong>Рейтинг: {{ product.rating }}</strong></li>

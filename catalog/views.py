@@ -2,8 +2,10 @@ from django.shortcuts import render
 from .models import Category, Product
 from .other_func import currency_usd, currency_eur, weather_temp
 from analytics.models import BlackIP
-from .forms import SearchForm
+from .forms import SearchForm, FavoriteForm
+from extuser.models import ExtUser
 from django.shortcuts import get_object_or_404
+
 
 
 def block_detail(func):
@@ -62,9 +64,19 @@ def category_select(request, slug):
 def product_card(request, slug):
     """Отображение карточки выбранного товара"""
     product = get_object_or_404(Product, slug = slug)
+    favorite_product = Product.objects.get(slug = slug)
+    if request.method == 'POST':
+        form = FavoriteForm(request.POST)
+        if form.is_valid():
+            user = ExtUser.objects.get(username=request.user.username)
+            user.favorite_product.add(favorite_product)
+            user.save()
+    else:
+        form = FavoriteForm()
+
 
     return render(request, 'catalog/catalog_product_detail.html',
-                  {'product': product})
+                  {'product': product, 'form': form})
 
 
 def get_product(request):

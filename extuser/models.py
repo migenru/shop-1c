@@ -1,6 +1,5 @@
 from django.db import models
-
-# Create your models here.
+from catalog.models import Product
 from django.contrib.auth.models import AbstractUser
 
 
@@ -13,3 +12,4 @@ class ExtUser(AbstractUser):
     user_type = models.CharField(verbose_name='Тип пользователя', choices=USER_TYPE, max_length=1, default='C')
     phone = models.CharField(verbose_name='Телефон', max_length=15, unique=True, blank=True)
     avatar = models.ImageField(verbose_name='Фото профиля', upload_to='user', blank=True)
+    favorite_product = models.ManyToManyField(Product, verbose_name='Избранный товар', blank=True, related_name='user')
