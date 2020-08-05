@@ -17,7 +17,7 @@ def user_login(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return HttpResponse('Вы успещно вошли в личный кабинет')
+                return render(request, 'backoffice/dashboard.html')
             else:
                 return HttpResponse('Пользователь не найден')
         else:
@@ -35,4 +35,4 @@ def favorite_list(request):
     username = request.user.username
     user = ExtUser.objects.get(username=username)
     products = user.favorite_product.all()
-    return render(request, 'backoffice/dashboard.html', {'products':products})
+    return render(request, 'backoffice/favorite.html', {'products':products})

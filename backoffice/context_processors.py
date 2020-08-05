@@ -9,5 +9,8 @@ def fullname(request):
     :return:
     '''
     username = request.user.username
-    user = ExtUser.objects.get(username=username)
-    return {'fullname': user.get_full_name}
+    if username:
+        user = ExtUser.objects.get(username=username)
+        return {'fullname': user}
+    else:
+        return {'fullname': 'incognito'}

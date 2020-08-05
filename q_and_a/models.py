@@ -16,7 +16,7 @@ class Question(NodeModel):
 
 
 class Answer(NodeModel):
-    question = models.OneToOneField(Question, on_delete=models.DO_NOTHING, verbose_name='Вопрос')
+    question = models.OneToOneField(Question, on_delete=models.DO_NOTHING, verbose_name='Вопрос', related_name='answer')
 
     def __str__(self):
         return self.title

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/motion-ui/1.2.3/motion-ui.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation-prototype.min.css">
     <link href='https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="{% static "css/dashboard.css" %}">
+    <link rel="stylesheet" href="{% static "css/custom.css" %}">
 
     <!-- optional CDN for Foundation Icons ^^ -->
   </head>
@@ -46,7 +46,7 @@
         {% else %}
           <a href="{% url 'backoffice:login' %}" class="large hollow button fi-torso"> </a>
         {% endif %}
-        <a href="#" class="large  button fi-shopping-cart"> </a>
+        <a href="#" class="large  button fi-shopping-cart"> 0</a>
         <a href="{% url 'catalog:search' %}" class="large button fi-magnifying-glass"> </a>
       </div>
     </div>
