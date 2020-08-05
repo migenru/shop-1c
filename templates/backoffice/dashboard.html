@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Личный кабинет - {% endblock %}
+
+{% block content %}
+
+<div class="grid-x grid-padding-x">
+    <div class="cell medium-2">
+        <h4 class="text-center">Личный кабинет</h4>
+        <h5 class="text-center">{{ fullname }}</h5>
+        <ul class="vertical menu">
+            <li class="is-active"><a href="#">One</a></li>
+            <li><a href="#">Two</a></li>
+            <li><a href="#"><i class="fi-plus"></i> добавить вопрос</a></li>
+            <li><a href="#"><i class="fi-heart"></i> Избранные товары</a></li>
+        </ul>
+    </div>
+    <div class="cell auto">
+        {% block dashcontent %}
+        <h3>Введение</h3>
+        <p>В личном кабинете можно сделать следующие операции:</p>
+        <ul>
+            <li>Создать вопрос</li>
+            <li>Создать ответ</li>
+            <li>Просмотреть избранные товары</li>
+            <li>Просмотреть заказы</li>
+            <li>Отредактировать профиль</li>
+        </ul>
+        {% endblock %}
+    </div>
+</div>
+
+{% endblock %}
+
+
