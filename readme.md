@@ -15,6 +15,8 @@
 - создать виртуальное окружение
 - скачать репозиторий
 - установить зависимости из requirements.txt
+- запустить [code]python manage.py runserver[/code]
+(если выдает ошибку ExtUser - сделать миграцию БД: [code]python manage.py makemigrations[/code] , [code]python manage.py migrate[/code])
 
 Использовать данные для входа:
 username: **admin**
