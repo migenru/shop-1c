@@ -15,7 +15,7 @@
         <div class="app-dashboard-close-sidebar">
 <!--            <h4 class="text-center">Личный кабинет</h4>-->
 <!--            <h5 class="text-center">{{ fullname }}</h5>-->
-          <h5 class="app-dashboard-sidebar-block-title">Личный кабинет</h5>
+          <h5 class="app-dashboard-sidebar-block-title button">Личный кабинет</h5>
           <!-- Close button -->
           <button id="close-sidebar" data-app-dashboard-toggle-shrink class="app-dashboard-sidebar-close-button show-for-medium" aria-label="Close menu" type="button">
             <span aria-hidden="true"><a href="#"><i class="large fa fa-angle-double-left"></i></a></span>
@@ -29,6 +29,11 @@
       </div>
       <div class="app-dashboard-sidebar-inner">
         <ul class="menu vertical">
+            {% if fullname.avatar %}
+            <p class="text-center">
+                <img src="/media/{{fullname.avatar}}" alt="" width="140px" style="border-radius: 50%; border: #1779ba 1px solid">
+            </p>
+            {% endif %}
           <h5 class="text-center">{{fullname.get_full_name}}</h5>
           <li><a href="#" class="is-active">
             <i class="large fa fa-file-text"></i><span class="app-dashboard-sidebar-text">Создать страницу</span>

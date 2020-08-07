@@ -62,12 +62,14 @@ def profile_edit(request):
             cd = form.cleaned_data
             if form.has_changed():
                 modeluser = form.save(commit=False)
+                error_msg = ''
                 # проверка на изменение поля new_password1 и new_password2
                 if 'new_password1' in form.changed_data:
                     if cd['new_password1']!=cd['new_password2']:
-                        return HttpResponse('Пароли не совпадают')
-                    modeluser.set_password(cd['new_password1'])
-                    modeluser.save()
+                        error_msg += '<li>Пароли не совпадают!!!</li>'
+                    else:
+                        modeluser.set_password(cd['new_password1'])
+                        modeluser.save()
                 # проверка на возраст
                 if 'birthday' in form.changed_data:
                     now_date = date.today()
@@ -75,7 +77,9 @@ def profile_edit(request):
                     delta_date = now_date - my_age
                     age18 = 18 * 365
                     if delta_date.days < age18:
-                        return HttpResponse('Лицам младше 18 - запрещено!!!')
+                        error_msg += '<li>Лицам младше 18 - запрещено!!!</li>'
+                if error_msg:
+                    return HttpResponse('<ol>' + error_msg + '</ol>')
                 form.save()
                 # добавление водяного знака
                 if 'avatar' in form.changed_data:
@@ -88,6 +92,7 @@ def profile_edit(request):
                     text='DJANGO SHOP'
                     drawing.text(pos, text, fill=color, font=font)
                     photo.save(path_avatar)
+
 
 
             return render(request, 'backoffice/dashboard.html')
