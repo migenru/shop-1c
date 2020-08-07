@@ -33,13 +33,16 @@
           <li><a href="#" class="is-active">
             <i class="large fa fa-file-text"></i><span class="app-dashboard-sidebar-text">Создать страницу</span>
           </a></li>
-          <li><a>
+          <li><a href="{% url 'q_and_a:create-q' %}">
             <i class="large fa fa-question-circle-o"></i><span class="app-dashboard-sidebar-text">Задать вопрос</span>
+          </a></li>
+            <li><a href="{% url 'q_and_a:questions' %}">
+            <i class="large fa fa-question-circle-o"></i><span class="app-dashboard-sidebar-text">Ответить на вопрос</span>
           </a></li>
           <li><a href="{% url 'backoffice:favorite' %}">
             <i class="large fa fa-star"></i><span class="app-dashboard-sidebar-text">Избранный товар</span>
           </a></li>
-          <li><a>
+          <li><a href="{% url 'backoffice:profile-edit' %}">
             <i class="large fa fa-cog"></i><span class="app-dashboard-sidebar-text">Настройка профиля</span>
           </a></li>
             <li><a>

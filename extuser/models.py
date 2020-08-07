@@ -13,3 +13,5 @@ class ExtUser(AbstractUser):
     phone = models.CharField(verbose_name='Телефон', max_length=15, unique=True, blank=True)
     avatar = models.ImageField(verbose_name='Фото профиля', upload_to='user', blank=True)
     favorite_product = models.ManyToManyField(Product, verbose_name='Избранный товар', blank=True, related_name='user')
+    date_register = models.DateTimeField(auto_now_add=True)
+    date_update = models.DateTimeField(auto_now=True)
