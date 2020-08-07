@@ -8,6 +8,8 @@ from extuser.models import ExtUser
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
+from datetime import date
+
 
 
 # Create your views here.
@@ -46,6 +48,9 @@ def favorite_list(request):
 def profile_edit(request):
     """
     Изменение профиля
+    - если пользователь добавил аватар - на фото добавляется водяной знак "DJANGO SHOP"
+    - если пользователь ввел дату рождения младше 18 лет - срабатывает редирект с ошибкой
+    - если пользователь меняет пароль и они не совпадают - срабатывает редирект с ошибкой
     :param request:
     :return:
     """
@@ -63,7 +68,16 @@ def profile_edit(request):
                         return HttpResponse('Пароли не совпадают')
                     modeluser.set_password(cd['new_password1'])
                     modeluser.save()
+                # проверка на возраст
+                if 'birthday' in form.changed_data:
+                    now_date = date.today()
+                    my_age = cd['birthday']
+                    delta_date = now_date - my_age
+                    age18 = 18 * 365
+                    if delta_date.days < age18:
+                        return HttpResponse('Лицам младше 18 - запрещено!!!')
                 form.save()
+                # добавление водяного знака
                 if 'avatar' in form.changed_data:
                     path_avatar='media/'+str(modeluser.avatar)
                     photo = Image.open(path_avatar)
@@ -74,6 +88,8 @@ def profile_edit(request):
                     text='DJANGO SHOP'
                     drawing.text(pos, text, fill=color, font=font)
                     photo.save(path_avatar)
+
+
             return render(request, 'backoffice/dashboard.html')
         else:
             context = {

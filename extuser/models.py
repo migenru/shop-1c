@@ -15,3 +15,4 @@ class ExtUser(AbstractUser):
     favorite_product = models.ManyToManyField(Product, verbose_name='Избранный товар', blank=True, related_name='user')
     date_register = models.DateTimeField(auto_now_add=True)
     date_update = models.DateTimeField(auto_now=True)
+    birthday = models.DateField(verbose_name='Дата рождения', blank=True, null=True)

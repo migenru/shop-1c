@@ -6,6 +6,8 @@ class LoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput)
 
 class UserForm(forms.ModelForm):
+
+
     new_password1 = forms.CharField(
         label=("Новый пароль"),
         widget=forms.PasswordInput,
@@ -26,4 +28,6 @@ class UserForm(forms.ModelForm):
                   'last_name',
                   'email',
                   'phone',
+                  'birthday',
                   'avatar',)
+
