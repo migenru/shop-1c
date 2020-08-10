@@ -5,6 +5,8 @@ from analytics.models import BlackIP
 from .forms import SearchForm, FavoriteForm
 from extuser.models import ExtUser
 from django.shortcuts import get_object_or_404
+from sales_and_clients.forms import CartAddProductForm
+from django.http import HttpResponse
 
 
 
@@ -64,6 +66,7 @@ def category_select(request, slug):
 def product_card(request, slug):
     """Отображение карточки выбранного товара"""
     product = get_object_or_404(Product, slug = slug)
+    cart_product_form = CartAddProductForm()
     favorite_product = Product.objects.get(slug = slug)
     if request.method == 'POST':
         form = FavoriteForm(request.POST)
@@ -71,12 +74,13 @@ def product_card(request, slug):
             user = ExtUser.objects.get(username=request.user.username)
             user.favorite_product.add(favorite_product)
             user.save()
+            return HttpResponse('Товар добавлен в избранное')
     else:
         form = FavoriteForm()
 
 
     return render(request, 'catalog/catalog_product_detail.html',
-                  {'product': product, 'form': form})
+                  {'product': product, 'form': form, 'cart_product_form':cart_product_form,})
 
 
 def get_product(request):

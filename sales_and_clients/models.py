@@ -21,20 +21,20 @@ class Client(models.Model):
         verbose_name_plural = 'Клиенты'
 
 
-class CartItem(models.Model):
-    product = models.OneToOneField('catalog.Product', on_delete=models.DO_NOTHING, verbose_name='Товар')
-    quentity = models.IntegerField(verbose_name='Количество')
-
-    def __str__(self):
-        return f'{self.product.title} - {self.quentity} шт.'
-
-
-class Cart(models.Model):
-    client = models.OneToOneField(Client, on_delete=models.DO_NOTHING)
-    card_item = models.ForeignKey(CartItem, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f'{self.pk}: {self.client}'
+# class CartItem(models.Model):
+#     product = models.OneToOneField('catalog.Product', on_delete=models.DO_NOTHING, verbose_name='Товар')
+#     quentity = models.IntegerField(verbose_name='Количество')
+#
+#     def __str__(self):
+#         return f'{self.product.title} - {self.quentity} шт.'
+#
+#
+# class Cart(models.Model):
+#     client = models.OneToOneField(Client, on_delete=models.DO_NOTHING)
+#     card_item = models.ForeignKey(CartItem, on_delete=models.CASCADE)
+#
+#     def __str__(self):
+#         return f'{self.pk}: {self.client}'
 
 
 class Order(models.Model):
@@ -58,7 +58,7 @@ class Order(models.Model):
     ]
     order_date = models.DateTimeField(auto_now_add=True)
     client = models.OneToOneField(Client, on_delete=models.DO_NOTHING)
-    cart = models.OneToOneField(Cart, on_delete=models.DO_NOTHING)
+    # cart = models.OneToOneField(Cart, on_delete=models.DO_NOTHING)
     total_cost = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Итого', blank=True)
     order_notes = models.TextField(verbose_name='Примечание к заказу', )
     delivery = models.CharField(verbose_name='Способ забора товара', choices=DELIVERY, max_length=7, default='SERVICE')

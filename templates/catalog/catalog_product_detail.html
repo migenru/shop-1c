@@ -45,16 +45,12 @@
 
 
             <h3>Цена: {{ product.price }} руб.</h3>
-            <div class="grid-x">
-                <div class="small-3 cell">
-                    <label for="middle-label" class="middle">кол-во</label>
-                </div>
-                <div class="small-9 cell">
-                    <input type="text" id="middle-label" placeholder="шт">
-                </div>
-            </div>
 
-            <a href="#" class="button large expanded">Купить</a>
+            <form action="." method="POST">
+                {% csrf_token %}
+                {{ cart_product_form }}
+                <button type="submit" class="button large expanded">Добавить в корзину</button>
+            </form>
         </div>
     </div>
 </article>

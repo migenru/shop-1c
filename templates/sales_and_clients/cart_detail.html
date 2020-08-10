@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Корзина - {% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <hr>
+    <h2>Ваша корзина</h2>
+    <hr>
+</div>
+<article class="grid-container">
+
+    <table>
+        <thead>
+        <tr>
+            <th>Фото товара</th>
+            <th>Товар</th>
+            <th>Количество</th>
+<!--            <th>Удалить</th>-->
+            <th>Цена</th>
+            <th>Стоимость</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><a href="#">
+                    <img class="thumbnail" src="https://placehold.it/100x100"></a></td>
+                <td>{{ value }} </td>
+                <td> </td>
+                <td> руб.</td>
+                <td> руб.</td>
+            </tr>
+            <tr>
+                <td>Итого</td>
+                <td colspan="3"></td>
+            </tr>
+        </tbody>
+    </table>
+
+</article>
+{% endblock %}
+
+
