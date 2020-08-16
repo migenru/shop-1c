@@ -24,10 +24,10 @@
                     <form action="." method="post">
                         {% csrf_token %}
                         {{ form.as_ul }}
-                        <button type="submit" class="hollow button alert"><i class="fi-heart"> </i></button>
+                        <button type="submit" class="hollow button alert" name="form"><i class="fi-heart"> </i></button>
                     </form>
-                {% endif %}
                 </div>
+                {% endif %}
                 <div class="cell shrink">
                     <button class="hollow button" title="сравнить товары"><i class="fi-graph-horizontal"> </i></button>
                 </div>
@@ -46,10 +46,10 @@
 
             <h3>Цена: {{ product.price }} руб.</h3>
 
-            <form action="." method="POST">
+            <form action="{% url 'cart:cart_detail' %}" method="POST">
                 {% csrf_token %}
-                {{ cart_product_form }}
-                <button type="submit" class="button large expanded">Добавить в корзину</button>
+                {{ form_cart.as_ul }}
+                <button type="submit" class="button large expanded" name='form_cart'>Добавить в корзину</button>
             </form>
         </div>
     </div>

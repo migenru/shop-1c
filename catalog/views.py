@@ -7,7 +7,7 @@ from extuser.models import ExtUser
 from django.shortcuts import get_object_or_404
 from sales_and_clients.forms import CartAddProductForm
 from django.http import HttpResponse
-
+from django.views.generic.list import ListView
 
 
 def block_detail(func):
@@ -26,6 +26,7 @@ def block_detail(func):
         else:
             return_value = func(request, *args, **kwargs)
             return return_value
+
     return wrapper
 
 
@@ -43,10 +44,13 @@ def index(request):
     return render(request, 'index.html', context=context)
 
 
-def catalog_list(request):
-    """Отображение списка категорий"""
-    catalogs = Category.objects.all()
-    return render(request, 'catalog/catalog.html', {'catalogs': catalogs})
+class CategoryListView(ListView):
+    '''
+    класс для вывода всех категорий
+    '''
+    model = Category
+    template_name = 'catalog/catalog.html'
+    context_object_name = 'catalogs'
 
 
 def products_all(request):
@@ -55,32 +59,66 @@ def products_all(request):
     return render(request, 'catalog/catalog_product_list.html', {'products': products})
 
 
-def category_select(request, slug):
-    """Отображение товаров выбранной категории на одной странице"""
-    cat = Category.objects.get(slug=slug)
-    products = Product.objects.all().filter(categoty=cat)
-    return render(request, 'catalog/catalog_current_list.html', {'products': products, 'cat': cat})
+
+class ProductListView(ListView):
+    '''
+    класс для вывод товара выбранной категории
+    '''
+    model = Product
+    template_name = 'catalog/catalog_current_list.html'
+    context_object_name = 'products'
+    ordering = 'title'
+
+    def get_queryset(self):
+        cat = Category.objects.get(slug=self.kwargs['slug'])
+        self.select_ordering = self.request.GET.get('ordering')
+        if not self.select_ordering:
+            self.select_ordering = 'title'
+        return Product.objects.filter(categoty=cat).order_by(self.select_ordering)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ProductListView, self).get_context_data(*args, **kwargs)
+        context['cat'] = Category.objects.get(slug=self.kwargs['slug'])
+        return context
+
+
+
 
 
 @block_detail
 def product_card(request, slug):
     """Отображение карточки выбранного товара"""
-    product = get_object_or_404(Product, slug = slug)
-    cart_product_form = CartAddProductForm()
-    favorite_product = Product.objects.get(slug = slug)
-    if request.method == 'POST':
+    product = get_object_or_404(Product, slug=slug)
+    favorite_product = Product.objects.get(slug=slug)
+    if request.method == 'POST' and 'form' in request.POST:
+        '''работа с формой добавления в избранное'''
         form = FavoriteForm(request.POST)
         if form.is_valid():
             user = ExtUser.objects.get(username=request.user.username)
             user.favorite_product.add(favorite_product)
             user.save()
-            return HttpResponse('Товар добавлен в избранное')
+            response = HttpResponse('Товар добавлен в избранное')
+            return response
     else:
         form = FavoriteForm()
 
+    if request.method == 'POST' and 'form_cart' in request.POST:
+        '''работа с формой добавления в корзину'''
+        form_cart = CartAddProductForm(request.POST)
+        if form_cart.is_valid():
+            product_id = str(product.id)
+            cart_dict = request.COOKIES.get('cart')
+            if not cart_dict:
+                cart_dict = {}
+            cart_dict[product_id] = {product.title: str(product.price), }
+            response = HttpResponse('Товар добавлен в корзину')
+            response.set_cookie('cart', cart_dict)
+            return response
+    else:
+        form_cart = CartAddProductForm()
 
     return render(request, 'catalog/catalog_product_detail.html',
-                  {'product': product, 'form': form, 'cart_product_form':cart_product_form,})
+                  {'product': product, 'form': form, 'form_cart': form_cart, })
 
 
 def get_product(request):
@@ -104,5 +142,3 @@ def get_product(request):
         form = SearchForm()
 
     return render(request, 'catalog/search.html', {'form': form})
-
-
