@@ -64,7 +64,7 @@ class Product(TimeStampedModel):
     price_old = models.DecimalField(verbose_name='Старая цена', max_digits=10, decimal_places=2, blank=True, null=True)
     metrika = models.CharField(verbose_name='Ед.измерения', max_length=200, blank=True, default='Штука')
     quentity = models.IntegerField(verbose_name='Количество', blank=True, null=True)
-    categoty = models.ForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True, )
+    categoty = models.ForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True, related_name='products')
     attribute = models.ForeignKey(AttributeValue, related_name='attribute_product', on_delete=models.CASCADE, blank=True, null=True, default='')
     image = models.ForeignKey(ProductImage, on_delete=models.SET_NULL, blank=True, null=True)
     rating = models.FloatField(verbose_name='Рейтинг товара', blank=True, null=True)

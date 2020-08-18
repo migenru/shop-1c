@@ -1,5 +1,6 @@
 from extuser.models import ExtUser
 from catalog.models import Product
+from collections import Counter
 
 
 def fullname(request):
@@ -24,15 +25,19 @@ def incart(request):
     :param request:
     :return:
     '''
-    in_cart = request.COOKIES.get('cart')
+    in_cart = request.COOKIES.get('cart_id')
     result = 0
     if in_cart:
-        cart = in_cart[3:].split('_&_')
-        productcarts = Product.objects.filter(pk__in=cart)
+        listcart = in_cart[3:].split('_&_')
+        counter = Counter(listcart)
+        productcarts = Product.objects.filter(pk__in=counter.keys())
         for item in productcarts:
             result += item.price
+        totalcart = len(productcarts)
 
     else:
-        cart = []
-    totalcart = len(cart)
-    return {'incart': productcarts, 'totalcart': totalcart, 'cartresult': result}
+        productcarts = ''
+        result = 0
+        totalcart = 0
+
+    return {'incart': productcarts, 'totalcart': totalcart, 'cartresult': result, 'cartamount': counter.values(),}

@@ -15,10 +15,6 @@ def cart_add(request, slug):
 
 
 def cart_detail(request):
-    value = request.COOKIES.get('cart')
-    context = {
-        'value': value,
-    }
-    return render(request, 'sales_and_clients/cart_detail.html', context)
+    return render(request, 'sales_and_clients/cart_detail.html', {})
 
 
