@@ -46,7 +46,7 @@
 
             <h3>Цена: {{ product.price }} руб.</h3>
 
-            <form action="{% url 'cart:cart_detail' %}" method="POST">
+            <form action="." method="POST">
                 {% csrf_token %}
                 {{ form_cart.as_ul }}
                 <button type="submit" class="button large expanded" name='form_cart'>Добавить в корзину</button>

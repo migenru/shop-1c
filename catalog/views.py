@@ -106,11 +106,11 @@ def product_card(request, slug):
         '''работа с формой добавления в корзину'''
         form_cart = CartAddProductForm(request.POST)
         if form_cart.is_valid():
-            product_id = str(product.id)
-            cart_dict = request.COOKIES.get('cart')
-            if not cart_dict:
-                cart_dict = {}
-            cart_dict[product_id] = {product.title: str(product.price), }
+            if 'cart' not in request.COOKIES:
+                cart_dict = ''
+            else:
+                cart_dict = request.COOKIES.get('cart')
+            cart_dict += '_&_' + str(product.id)
             response = HttpResponse('Товар добавлен в корзину')
             response.set_cookie('cart', cart_dict)
             return response
