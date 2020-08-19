@@ -16,27 +16,33 @@
             <th>Фото товара</th>
             <th>Товар</th>
             <th>кол-во</th>
+            <th>удалить</th>
             <th>Цена</th>
+            <th>Стоимость</th>
         </tr>
         </thead>
         <tbody>
-        {% for item in incart %}
+        {% for item in cart %}
+        {% with product=item.product %}
             <tr>
-                <td><a href="#">
+                <td><a href="{{ product.get_absolute_url }}">
                     <img class="thumbnail" src="https://placehold.it/100x100"></a></td>
-                <td><a href="../catalog/product/{{ item.slug }}">{{ item.title }}</a> </td>
-                <td>{{ cartamount }} </td>
+                <td><a href="{{ product.get_absolute_url }}">{{ item.title }}</a> </td>
+                <td>{{ item.quantity }} </td>
+                <td><a href="#">удалить</a></td>
                 <td>{{ item.price }} руб.</td>
+                <td>{{ item.total_price }} руб.</td>
             </tr>
+        {% endwith %}
         {% empty %}
         <tr>
-            <td colspan="3">Ваша корзина пуста</td>
+            <td colspan="6">Ваша корзина пуста</td>
         </tr>
         {% endfor %}
             <tr>
                 <td>Итого</td>
-                <td colspan="3">{{ cartresult }}</td>
-                <td colspan="3"></td>
+                <td colspan="3">{{ cart.get_total_price }}</td>
+                <td colspan="2"></td>
             </tr>
         </tbody>
     </table>

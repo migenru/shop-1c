@@ -1,6 +1,5 @@
 from extuser.models import ExtUser
-from catalog.models import Product
-from collections import Counter
+from sales_and_clients.cart import Cart
 
 
 def fullname(request):
@@ -18,26 +17,7 @@ def fullname(request):
         return {'fullname': 'incognito'}
 
 
-def incart(request):
-    '''
-    Выводит в шаблоне Имя + Фамилия
-    {{ fullname }}
-    :param request:
-    :return:
-    '''
-    in_cart = request.COOKIES.get('cart_id')
-    result = 0
-    if in_cart:
-        listcart = in_cart[3:].split('_&_')
-        counter = Counter(listcart)
-        productcarts = Product.objects.filter(pk__in=counter.keys())
-        for item in productcarts:
-            result += item.price
-        totalcart = len(productcarts)
 
-    else:
-        productcarts = ''
-        result = 0
-        totalcart = 0
 
-    return {'incart': productcarts, 'totalcart': totalcart, 'cartresult': result, 'cartamount': counter.values(),}
+def cart(request):
+    return {'cart': Cart(request)}

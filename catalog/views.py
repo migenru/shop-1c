@@ -9,7 +9,6 @@ from sales_and_clients.forms import CartAddProductForm
 from django.http import HttpResponse
 from django.views.generic.list import ListView
 
-
 def block_detail(func):
     """
     Декоратор который запрещает просмотр страниц, если пользователь
@@ -105,15 +104,13 @@ def product_card(request, slug):
     if request.method == 'POST' and 'form_cart' in request.POST:
         '''работа с формой добавления в корзину'''
         form_cart = CartAddProductForm(request.POST)
+        cart = Cart(request)
         if form_cart.is_valid():
-            if 'cart_id' not in request.COOKIES:
-                cart_dict_id = ''
-            else:
-                cart_dict_id = request.COOKIES.get('cart_id')
-            cart_dict_id += '_&_' + str(product.id)
-            response = HttpResponse('Товар добавлен в корзину')
-            response.set_cookie('cart_id', cart_dict_id)
-            return response
+            cd = form_cart.cleaned_data
+            cart.add(product=product,
+                     quantity=cd['quantity'],
+                     update_quantity=cd['update'])
+        return redirect('cart:cart_detail')
     else:
         form_cart = CartAddProductForm()
 

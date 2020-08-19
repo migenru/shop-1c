@@ -63,6 +63,8 @@ MIDDLEWARE = [
     'analytics.middleware.count_page',
 ]
 
+
+
 ROOT_URLCONF = 'shop.urls'
 
 TEMPLATES = [
@@ -78,7 +80,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
 
                 'backoffice.context_processors.fullname',
-                'backoffice.context_processors.incart',
+                'backoffice.context_processors.cart',
             ],
         },
     },
@@ -143,5 +145,3 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 FIXTURE_DIRS = (
    os.path.join(BASE_DIR, 'fixture.json'),
 )
-
-

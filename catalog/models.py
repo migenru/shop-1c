@@ -1,6 +1,7 @@
 import uuid
 from django.db import models
 from core.models import TimeStampedModel
+from django.urls import reverse
 
 
 # Create your models here.
@@ -75,4 +76,8 @@ class Product(TimeStampedModel):
 
     def __str__(self):
         return self.title
+
+
+    def get_absolute_url(self):
+            return reverse('catalog:product_detail', args=[self.slug])
 
