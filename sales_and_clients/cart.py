@@ -13,8 +13,8 @@ class Cart:
 
     def __iter__(self):
         # получение объектов товаров
-        product_slugs = self.cart.keys()
-        products = Product.objects.filter(slug__in=product_slugs)
+        product_ids = self.cart.keys()
+        products = Product.objects.filter(id__in=product_ids)
 
         cart = self.cart.copy()
         for product in products:
@@ -57,5 +57,5 @@ class Cart:
 
     def clear(self):
         # очистка корзины
-        del self.session[settings.CART_SESSION_ID]
+        del self.session['cart']
         self.save()
