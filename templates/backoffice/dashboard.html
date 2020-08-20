@@ -35,7 +35,7 @@
             </p>
             {% endif %}
           <h5 class="text-center">{{fullname.get_full_name}}</h5>
-          <li><a href="#" class="is-active">
+          <li><a href="{% url 'backoffice:create-page' %}" class="is-active">
             <i class="large fa fa-file-text"></i><span class="app-dashboard-sidebar-text">Создать страницу</span>
           </a></li>
             {% if fullname.user_type == 'C' %}
@@ -54,7 +54,7 @@
           <li><a href="{% url 'backoffice:profile-edit' %}">
             <i class="large fa fa-cog"></i><span class="app-dashboard-sidebar-text">Настройка профиля</span>
           </a></li>
-            <li><a>
+            <li><a href="{% url 'backoffice:analitics'%}">
             <i class="large fa fa-pie-chart"></i><span class="app-dashboard-sidebar-text">Аналитика сайта</span>
           </a></li>
           <li><a href="{% url 'backoffice:logout' %}">

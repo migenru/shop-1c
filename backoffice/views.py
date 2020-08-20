@@ -1,15 +1,18 @@
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import LoginForm, UserForm
 from extuser.models import ExtUser
-from PIL import Image
-from PIL import ImageDraw
-from PIL import ImageFont
+from PIL import Image, ImageDraw, ImageFont
 from datetime import date
-
+from django.views.generic import CreateView
+from article.models import Article
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from slugify import slugify
+from analytics.models import CountForIP
+from collections import Counter
 
 
 # Create your views here.
@@ -108,3 +111,29 @@ def profile_edit(request):
             'form': form,
         }
         return render(request, 'backoffice/profile_edit.html', context)
+
+
+class CreatePageView(CreateView):
+    model = Article
+    fields = ['image', 'title', 'content','tag', 'type', 'term']
+    template_name = 'backoffice/create-form.html'
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(CreatePageView, self).dispatch(*args, **kwargs)
+
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.author = self.request.user
+        obj.slug = slugify(obj.title)
+        obj.save()
+        return HttpResponse('Страница создана')
+
+
+def analitics(request):
+    pages = CountForIP.objects.all().values_list('page_url', flat=True)
+    populate_pages = Counter(pages).most_common(10)
+
+    products = CountForIP.objects.filter(page_url__contains='product').values_list('page_url', flat=True)
+    populate_products = Counter(products).most_common(10)
+    return render(request, 'backoffice/analitics.html', {'populate_pages': populate_pages, 'populate_products': populate_products})

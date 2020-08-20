@@ -16,9 +16,10 @@
             <th>Фото товара</th>
             <th>Товар</th>
             <th>кол-во</th>
-            <th>удалить</th>
+            <th></th>
             <th>Цена</th>
             <th>Стоимость</th>
+            <th> </th>
         </tr>
         </thead>
         <tbody>
@@ -32,11 +33,12 @@
                         {% csrf_token %}
                         {{ item.update_quantity_form.quantity }}
                         {{ item.update_quantity_form.update }}
-                        <button  type="submit" class="button" name="form">Изменить</button>
-                    </form></td>
-                <td><a href="{% url 'cart:cart_remove' item.product.slug %}">удалить</a></td>
+
+                    </td>
+                <td><button  type="submit" class="button fi-pencil hollow" name="form"> </button></td></form>
                 <td>{{ item.price }} руб.</td>
                 <td>{{ item.total_price }} руб.</td>
+                <td><a href="{% url 'cart:cart_remove' item.product.slug %}" class="small button alert hollow fi-x"></a></td>
             </tr>
         {% empty %}
         <tr>
@@ -46,7 +48,7 @@
             <tr>
                 <td>Итого</td>
                 <td colspan="3">{{ cart.get_total_price }}</td>
-                <td colspan="2"></td>
+                <td colspan="3"></td>
             </tr>
         </tbody>
     </table>

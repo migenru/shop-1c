@@ -1,6 +1,7 @@
 from extuser.models import ExtUser
 from sales_and_clients.cart import Cart
-
+from .forms import LoginForm, UserForm
+from django.contrib.auth import authenticate, login
 
 def fullname(request):
     '''
@@ -21,3 +22,4 @@ def fullname(request):
 
 def cart(request):
     return {'cart': Cart(request)}
+

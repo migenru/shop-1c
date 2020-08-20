@@ -1,6 +1,7 @@
 from django.db import models
 
 from core.models import NodeModel, Term
+from django.urls import reverse
 
 
 # Create your models here.
@@ -28,12 +29,9 @@ class TermArticle(Term):
         verbose_name_plural = 'Разделы сайта'
 
 
-
-
 class TypeArticle(models.Model):
     name = models.CharField(verbose_name='Название типа', max_length=100, unique=True)
     description = models.TextField(verbose_name='Описание типа', blank=True)
-
 
     def __str__(self):
         return self.name
