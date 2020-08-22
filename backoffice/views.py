@@ -1,4 +1,5 @@
 from django.http import HttpResponse, HttpResponseRedirect
+from django.db.models import Q
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
@@ -147,20 +148,26 @@ def constructor_light(request):
     dictroom = {
         'bed': 0,
         'bed_count': 0,
+        'bed_product': '',
         'kitchen': 0,
         'kitchen_count': 0,
+        'kitchen_product': '',
         'living': 0,
         'living_count': 0,
+        'living_product': '',
         'kids': 0,
         'kids_count': 0,
         'kids_product': '',
         'kids_description': '',
         'bath': 0,
         'bath_count': 0,
+        'bath_product': '',
         'wc': 0,
         'wc_count': 0,
+        'wc_product': '',
         'other': 0,
         'other_count': 0,
+        'other_product': '',
     }
     data = ''
     product = ''
@@ -201,11 +208,24 @@ def constructor_light(request):
             return result
 
         if dictroom['kids']:
-            dictroom['kids_description'] = description('kids', 200) + 'Также не забудьте купить ночник. '
-            dictroom['kids_product'] = Product.objects.filter(title__icontains='Ночник')
+            dictroom['kids_description'] = description('kids', 200) + f'Также не забудьте купить ночник в ' \
+                                                                      f'количестве {dictroom["kids_count"]} шт.'
+            dictroom['kids_product'] = Product.objects.filter(Q(title__icontains='Ночник') | Q(title__icontains="Потолочный"))[:3]
 
-        dictroom['bed_description'] = description('bed', 150)
-        dictroom['kitchen_description'] = description('kitchen', 150)
+        if dictroom['bed']:
+            dictroom['bed_description'] = description('bed', 150) + f'Также вам нужно бра в количестве {dictroom["bed_count"]*2} шт.'
+            dictroom['bed_product'] = Product.objects.filter(title__icontains='Бра')[:3]
+
+        if dictroom['kitchen']:
+            dictroom['kitchen_description'] = description('kitchen', 150)
+            dictroom['kitchen_product'] = Product.objects.filter(title__icontains='Спот')[:3]
+
+        if dictroom['living']:
+            dictroom['living_description'] = description('living', 150)
+            dictroom['living_product'] = Product.objects.filter(Q(title__icontains='Люстра') | Q(title__icontains="Потолочный"))[:3]
+
+
+
         dictroom['living_description'] = description('living', 150)
         dictroom['bath_description'] = description('bath', 100)
         dictroom['wc_description'] = description('wc', 50)

@@ -79,39 +79,57 @@
             {% if dictroom.bed %}
                 <p><strong>Спальни: </strong>{{dictroom.bed_count }} шт, общая площадь {{dictroom.bed }} кв.м</p>
                 <p>{{dictroom.bed_description}}</p>
+                {% for product in dictroom.bed_product %}
+                    <p><a href="{{product.get_absolute_url}}">{{product}} - {{product.price}} руб.</a></p>
+                {% endfor %}
             {% endif %}
 
             {% if dictroom.kitchen %}
                 <p><strong>Кухни: </strong>{{dictroom.kitchen_count }} шт, общая площадь {{dictroom.kitchen }} кв.м</p>
                 <p>{{dictroom.kitchen_description}}</p>
+                {% for product in dictroom.kitchen_product %}
+                    <p><a href="{{product.get_absolute_url}}">{{product}} - {{product.price}} руб.</a></p>
+                {% endfor %}
             {% endif %}
 
             {% if dictroom.living %}
                 <p><strong>Гостинные: </strong>{{dictroom.living_count }} шт, общая площадь {{dictroom.living }} кв.м</p>
                 <p>{{dictroom.living_description}}</p>
+                {% for product in dictroom.living_product %}
+                    <p><a href="{{product.get_absolute_url}}">{{product}} - {{product.price}} руб.</a></p>
+                {% endfor %}
             {% endif %}
 
             {% if dictroom.kids %}
                 <p><strong>Детские комнаты: </strong>{{dictroom.kids_count }} шт, общая площадь {{dictroom.kids }} кв.м</p>
                 <p>{{dictroom.kids_description}}</p>
                 {% for product in dictroom.kids_product%}
-                <p><a href="{{product.get_absolute_url}}">{{product}} - {{product.price}} руб.</a></p>
+                    <p><a href="{{product.get_absolute_url}}">{{product}} - {{product.price}} руб.</a></p>
                 {% endfor %}
             {% endif %}
 
             {% if dictroom.bath %}
                 <p><strong>Ванные: </strong>{{dictroom.bath_count }} шт, общая площадь {{dictroom.bath }} кв.м</p>
                 <p>{{dictroom.bath_description}}</p>
+                {% for product in dictroom.bath_product %}
+                    <p><a href="{{product.get_absolute_url}}">{{product}} - {{product.price}} руб.</a></p>
+                {% endfor %}
             {% endif %}
 
             {% if dictroom.wc %}
                 <p><strong>Туалеты: </strong>{{dictroom.wc_count }} шт, общая площадь {{dictroom.wc }} кв.м</p>
                 <p>{{dictroom.wc_description}}</p>
+                {% for product in dictroom.wc_product %}
+                    <p><a href="{{product.get_absolute_url}}">{{product}} - {{product.price}} руб.</a></p>
+                {% endfor %}
             {% endif %}
 
             {% if dictroom.other %}
                 <p><strong>Коридоры: </strong>{{dictroom.other_count }} шт, общая площадь {{dictroom.other }} кв.м</p>
                 <p>{{dictroom.other_description}}</p>
+                {% for product in dictroom.other_product %}
+                    <p><a href="{{product.get_absolute_url}}">{{product}} - {{product.price}} руб.</a></p>
+                {% endfor %}
             {% endif %}
 
 
