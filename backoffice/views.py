@@ -173,28 +173,30 @@ def constructor_light(request):
         else:
             data = 'Вам не нужен уличный свет. '
 
+        # счетчик кол-ва комнат в форме
         countroom = int(request.POST['countroom'])
 
         for i in range(countroom):
-            typeid = 'typeroom_' + str(i+1)
-            squareid = 'square_' + str(i+1)
+            # перебираю формы из template
+            typeid = 'typeroom_' + str(i + 1)
+            squareid = 'square_' + str(i + 1)
             type_count = request.POST[typeid] + '_count'
             dict_key = request.POST[typeid]
             dict_value = request.POST[squareid]
             dictroom[dict_key] += int(dict_value)
             dictroom[type_count] += 1
 
+        # общая площадь комнат во всем доме
         s = dictroom['bed'] + dictroom['kitchen'] + dictroom['kids'] \
-            + dictroom['bath']  + dictroom['living'] + dictroom['wc'] \
+            + dictroom['bath'] + dictroom['living'] + dictroom['wc'] \
             + dictroom['other']
         data += f'У вас {countroom} комнат. Общая площадь комнат: {s} кв.м'
 
-
         def description(typeroom, lumen):
             # функция по описанию светильников для каждой комнаты в зависимости от лм
-            result = f'Вам нужна освещенность: {lumen*dictroom[typeroom]} лм. ' \
-                f'Что равно {lumen*dictroom[typeroom]/100} Вт светодиодных ламп. ' \
-                f'Рекомендуем купить {int(lumen*dictroom[typeroom]/100//5 + 1)} светодиодных ' \
+            result = f'Вам нужна освещенность: {lumen * dictroom[typeroom]} лм. ' \
+                f'Что равно {lumen * dictroom[typeroom] / 100} Вт светодиодных ламп. ' \
+                f'Рекомендуем купить {int(lumen * dictroom[typeroom] / 100 // 5 + 1)} светодиодных ' \
                 f'светильников мощностью по 5 Вт. '
             return result
 
@@ -209,9 +211,9 @@ def constructor_light(request):
         dictroom['wc_description'] = description('wc', 50)
         dictroom['other_description'] = description('other', 75)
 
-        return render(request, 'backoffice/constructor.html', {'data' : data, 'product': product, 'dictroom': dictroom})
+        return render(request, 'backoffice/constructor.html', {'data': data, 'product': product, 'dictroom': dictroom})
 
     else:
-        return render(request, 'backoffice/constructor.html', {'data' : data, 'product': product, 'dictroom': dictroom})
+        return render(request, 'backoffice/constructor.html', {'data': data, 'product': product, 'dictroom': dictroom})
 
-    return render(request, 'backoffice/constructor.html', {'data' : data, 'product': product, 'dictroom': dictroom})
+    return render(request, 'backoffice/constructor.html', {'data': data, 'product': product, 'dictroom': dictroom})
