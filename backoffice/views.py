@@ -1,4 +1,4 @@
-from django.http import HttpResponse,HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
@@ -13,6 +13,7 @@ from django.utils.decorators import method_decorator
 from slugify import slugify
 from analytics.models import CountForIP
 from collections import Counter
+from catalog.models import Product
 
 
 # Create your views here.
@@ -42,6 +43,7 @@ def main(request):
 
 
 def favorite_list(request):
+    ''' список товаров добавленных в избранное '''
     username = request.user.username
     user = ExtUser.objects.get(username=username)
     products = user.favorite_product.all()
@@ -68,7 +70,7 @@ def profile_edit(request):
                 error_msg = ''
                 # проверка на изменение поля new_password1 и new_password2
                 if 'new_password1' in form.changed_data:
-                    if cd['new_password1']!=cd['new_password2']:
+                    if cd['new_password1'] != cd['new_password2']:
                         error_msg += '<li>Пароли не совпадают!!!</li>'
                     else:
                         modeluser.set_password(cd['new_password1'])
@@ -86,17 +88,15 @@ def profile_edit(request):
                 form.save()
                 # добавление водяного знака
                 if 'avatar' in form.changed_data:
-                    path_avatar='media/'+str(modeluser.avatar)
+                    path_avatar = 'media/' + str(modeluser.avatar)
                     photo = Image.open(path_avatar)
                     drawing = ImageDraw.Draw(photo)
                     color = (169, 169, 169)
                     font = ImageFont.truetype("media/fonts/philosopher.ttf", 40)
                     pos = (0, 0)
-                    text='DJANGO SHOP'
+                    text = 'DJANGO SHOP'
                     drawing.text(pos, text, fill=color, font=font)
                     photo.save(path_avatar)
-
-
 
             return render(request, 'backoffice/dashboard.html')
         else:
@@ -114,8 +114,9 @@ def profile_edit(request):
 
 
 class CreatePageView(CreateView):
+    ''' страница добавления материалов на сайт '''
     model = Article
-    fields = ['image', 'title', 'content','tag', 'type', 'term']
+    fields = ['image', 'title', 'content', 'tag', 'type', 'term']
     template_name = 'backoffice/create-form.html'
 
     @method_decorator(login_required)
@@ -131,9 +132,86 @@ class CreatePageView(CreateView):
 
 
 def analitics(request):
+    ''' страница с аналитикой посещения страниц и продуктов'''
     pages = CountForIP.objects.all().values_list('page_url', flat=True)
     populate_pages = Counter(pages).most_common(10)
 
     products = CountForIP.objects.filter(page_url__contains='product').values_list('page_url', flat=True)
     populate_products = Counter(products).most_common(10)
-    return render(request, 'backoffice/analitics.html', {'populate_pages': populate_pages, 'populate_products': populate_products})
+    return render(request, 'backoffice/analitics.html',
+                  {'populate_pages': populate_pages, 'populate_products': populate_products})
+
+
+def constructor_light(request):
+    ''' конструктор для подбора освещения'''
+    dictroom = {
+        'bed': 0,
+        'bed_count': 0,
+        'kitchen': 0,
+        'kitchen_count': 0,
+        'living': 0,
+        'living_count': 0,
+        'kids': 0,
+        'kids_count': 0,
+        'kids_product': '',
+        'kids_description': '',
+        'bath': 0,
+        'bath_count': 0,
+        'wc': 0,
+        'wc_count': 0,
+        'other': 0,
+        'other_count': 0,
+    }
+    data = ''
+    product = ''
+    if request.method == 'POST':
+        home = request.POST['home']
+        # нужен ли уличный свет?
+        if home == 'house':
+            data = 'Вам нужен уличный светильник. '
+            product = Product.objects.get(slug='svetilnik-ulichnyi-es-altair-f-chernoe-zoloto-stolb-79')
+        else:
+            data = 'Вам не нужен уличный свет. '
+
+        countroom = int(request.POST['countroom'])
+
+        for i in range(countroom):
+            typeid = 'typeroom_' + str(i+1)
+            squareid = 'square_' + str(i+1)
+            type_count = request.POST[typeid] + '_count'
+            dict_key = request.POST[typeid]
+            dict_value = request.POST[squareid]
+            dictroom[dict_key] += int(dict_value)
+            dictroom[type_count] += 1
+
+        s = dictroom['bed'] + dictroom['kitchen'] + dictroom['kids'] \
+            + dictroom['bath']  + dictroom['living'] + dictroom['wc'] \
+            + dictroom['other']
+        data += f'У вас {countroom} комнат. Общая площадь комнат: {s} кв.м'
+
+
+        def description(typeroom, lumen):
+            # функция по описанию светильников для каждой комнаты в зависимости от лм
+            result = f'Вам нужна освещенность: {lumen*dictroom[typeroom]} лм. ' \
+                f'Что равно {lumen*dictroom[typeroom]/100} Вт светодиодных ламп. ' \
+                f'Рекомендуем купить {int(lumen*dictroom[typeroom]/100//5 + 1)} светодиодных ' \
+                f'светильников мощностью по 5 Вт. '
+            return result
+
+        if dictroom['kids']:
+            dictroom['kids_description'] = description('kids', 200) + 'Также не забудьте купить ночник. '
+            dictroom['kids_product'] = Product.objects.filter(title__icontains='Ночник')
+
+        dictroom['bed_description'] = description('bed', 150)
+        dictroom['kitchen_description'] = description('kitchen', 150)
+        dictroom['living_description'] = description('living', 150)
+        dictroom['bath_description'] = description('bath', 100)
+        dictroom['wc_description'] = description('wc', 50)
+        dictroom['other_description'] = description('other', 75)
+
+        return render(request, 'backoffice/constructor.html', {'data' : data, 'product': product, 'dictroom': dictroom})
+
+    else:
+        return render(request, 'backoffice/constructor.html', {'data' : data, 'product': product, 'dictroom': dictroom})
+
+    return render(request, 'backoffice/constructor.html', {'data' : data, 'product': product, 'dictroom': dictroom})

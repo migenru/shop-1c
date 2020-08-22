@@ -46,6 +46,8 @@ USERS_APPS = [
     'extuser',
     'q_and_a',
     'sales_and_clients',
+    'mathfilters',
+
 ]
 
 INSTALLED_APPS = CORE_APPS + USERS_APPS

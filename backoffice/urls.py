@@ -14,4 +14,5 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(next_page='catalog:index'), name='logout'),
     path('create-page/', views.CreatePageView.as_view(), name='create-page'),
     path('analitics/', views.analitics, name='analitics'),
+    path('constructor-light/', views.constructor_light, name='constructor-light'),
 ]

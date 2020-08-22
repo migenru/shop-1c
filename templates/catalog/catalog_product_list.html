@@ -25,7 +25,7 @@
             <tr>
               <td>{{ forloop.counter }}</td>
               <td>{{product.categoty}}</td>
-              <td><a href="../product/{{ product.slug }}">{{product.title}}</a></td>
+              <td><a href="{{ product.get_absolute_url }}">{{product.title}}</a></td>
               <td>{{ product.quentity }}</td>
               <td>{{ product.price }}</td>
               <td><a class="button small primary hollow" href="#">купить</a></td>
