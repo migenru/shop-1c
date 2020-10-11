@@ -4,6 +4,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+fabfile.py
 
 # C extensions
 *.so

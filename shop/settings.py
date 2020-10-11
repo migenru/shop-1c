@@ -47,6 +47,7 @@ USERS_APPS = [
     'q_and_a',
     'sales_and_clients',
     'mathfilters',
+    'rest_framework',
 
 ]
 

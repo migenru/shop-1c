@@ -8,10 +8,20 @@ from .models import TagArticle, TypeArticle, Article, TermArticle, Comment
 admin.site.register(TypeArticle)
 
 
-@admin.register(Article)
-class ArticleAdmin(admin.ModelAdmin):
-    prepopulated_fields = {"slug": ("title",)}
+def make_published(modeladmin, request, queryset):
+    queryset.update(status='P')
 
+make_published.short_description = "Установить статус 'Published'"
+
+
+
+class ArticleAdmin(admin.ModelAdmin):
+    list_display = ('title', 'type', 'author' ,'status')
+    list_filter = ('title', 'type', 'author', 'status')
+    search_fields = ('title', 'author', 'content')
+    actions = [make_published]
+
+admin.site.register(Article, ArticleAdmin)
 
 @admin.register(TagArticle)
 class TagArticleAdmin(admin.ModelAdmin):

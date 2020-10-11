@@ -8,6 +8,9 @@ from django.shortcuts import get_object_or_404
 from sales_and_clients.forms import CartAddProductForm
 from django.http import HttpResponse
 from django.views.generic.list import ListView
+from rest_framework import viewsets
+from rest_framework import permissions
+from .serializers import ProductSerializer
 
 def block_detail(func):
     """
@@ -139,3 +142,11 @@ def get_product(request):
         form = SearchForm()
 
     return render(request, 'catalog/search.html', {'form': form})
+
+
+class ProductViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
