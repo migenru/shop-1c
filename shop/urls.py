@@ -25,6 +25,7 @@ urlpatterns = [
     path('q-and-a/', include('q_and_a.urls')),
     path('', include('article.urls')),
     path('my/', include('backoffice.urls')),
+    path('telebot/', include('telegrambot.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  \
   + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

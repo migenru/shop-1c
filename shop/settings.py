@@ -48,6 +48,7 @@ USERS_APPS = [
     'sales_and_clients',
     'mathfilters',
     'rest_framework',
+    'telegrambot',
 
 ]
 
