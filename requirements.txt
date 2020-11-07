@@ -10,11 +10,13 @@ django-mathfilters==1.0.0
 djangorestframework==3.11.1
 Fabric3==1.14.post1
 idna==2.10
+loguru==0.5.3
 lxml==4.5.2
 paramiko==2.7.2
 Pillow==7.2.0
 pycparser==2.20
 PyNaCl==1.4.0
+pyTelegramBotAPI==3.7.3
 python-slugify==4.0.1
 pytz==2020.1
 requests==2.24.0

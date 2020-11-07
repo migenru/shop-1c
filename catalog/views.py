@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Category, Product
-from .other_func import currency_usd, currency_eur, weather_temp
+from .other_func import weather_temp
 from analytics.models import BlackIP
 from .forms import SearchForm, FavoriteForm
 from extuser.models import ExtUser
@@ -40,8 +40,8 @@ def index(request):
         'temperature': weather_temp,
         'catalogs': catalogs,
         'catalogs_slider': catalogs_slider,
-        'usd': currency_usd,
-        'eur': currency_eur
+        'usd': 'n/a',
+        'eur': 'n/a'
     }
     return render(request, 'index.html', context=context)
 

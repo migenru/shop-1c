@@ -6,12 +6,14 @@ import re
 from slugify import slugify
 from .models import Category, Product
 
-URL_CBR = 'http://cbr.ru/'
-r_currency = requests.get(URL_CBR)
-result = re.findall(r'<div class=\"indicator_el_value mono-num\">(\S*?)<small>', r_currency.text)
 
-USD = float(result[1].replace(',', '.'))
-EUR = float(result[3].replace(',', '.'))
+# URL_CBR = 'http://cbr.ru/'
+# r_currency = requests.get(URL_CBR)
+# result = re.findall(r'<div class=\"main-indicator_rates-table\">(\S*?)<small>', r_currency.text)
+#
+# USD = float(result[1].replace(',', '.'))
+# EUR = float(result[3].replace(',', '.'))
+
 
 goods = dict()
 url_import = 'http://migen.beget.tech/cml/import0_1.xml'
@@ -26,6 +28,7 @@ tree_price = ET.parse(io.BytesIO(content_price))  # дерево с ценами
 menu = []  # словарь групп
 
 nms = {'ns': 'urn:1C.ru:commerceml_2'}
+
 
 '''формирую список групп'''
 grups = tree.find('ns:Классификатор', nms)
@@ -42,6 +45,7 @@ for i in grups.findall('ns:Группы/ns:Группа', nms):
         y_slug = slugify(name)
         y = {'id': id, 'name': name, 'parent': y_parent, 'slug': y_slug}
         menu.append(y)
+
 
 '''формирую список товаров'''
 for good in tree.findall('ns:Каталог/ns:Товары/ns:Товар', nms):
@@ -98,14 +102,14 @@ def products_list():
         i += 1
 
 
-def currency_eur():
-    '''получение курса ЕВРО'''
-    return round(EUR, 2)
-
-
-def currency_usd():
-    '''получение курса ДОЛЛАРА'''
-    return round(USD, 2)
+# def currency_eur():
+#     '''получение курса ЕВРО'''
+#     return round(EUR, 2)
+#
+#
+# def currency_usd():
+#     '''получение курса ДОЛЛАРА'''
+#     return round(USD, 2)
 
 
 def weather_temp():
