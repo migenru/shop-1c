@@ -1,7 +1,7 @@
 import telebot
 from shop.telegrambot.models import Accessbot
 
-TOKEN = '1161359976:AAH_FxXhROq3aX0tjX5oYxEI5_Z50_naJoM'
+TOKEN = ' '
 
 
 bot = telebot.TeleBot(TOKEN, parse_mode=None)
